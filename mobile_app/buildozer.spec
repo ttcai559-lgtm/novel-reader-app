@@ -13,7 +13,9 @@ source.include_exts = py,png,jpg,kv,atlas,txt
 version = 1.0.0
 
 # Python依赖
-requirements = python3,kivy,edge-tts,aiohttp,certifi,loguru,pyyaml,chardet,asyncio
+# 注意：edge-tts 需要在运行时通过 pip 安装，buildozer 编译时会失败
+# asyncio 是 Python 内置模块，不需要单独列出
+requirements = python3,kivy
 
 # 主程序入口
 entrypoint = main.py
