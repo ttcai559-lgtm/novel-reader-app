@@ -1,0 +1,109 @@
+# APP_Tool 默认配置文件
+
+# TTS引擎配置
+tts:
+  default_engine: "edge-tts"  # 可选: edge-tts, pyttsx3, baidu, aliyun, tencent
+
+  # Edge TTS配置
+  edge:
+    default_voice: "zh-CN-XiaoxiaoNeural"  # 默认音色
+    speech_rate: 1.0  # 语速 (0.5 - 2.0)
+    volume: 1.0  # 音量 (0.0 - 1.0)
+    pitch: 1.0  # 音调 (0.5 - 2.0)
+
+  # 本地TTS配置
+  pyttsx3:
+    rate: 150  # 语速
+    volume: 1.0
+
+  # 云端TTS配置（需要API密钥）
+  baidu:
+    app_id: ""
+    api_key: ""
+    secret_key: ""
+    voice: "0"  # 0-女声, 1-男声, 3-情感男声, 4-情感女声
+
+  aliyun:
+    access_key_id: ""
+    access_key_secret: ""
+    voice: "xiaoyun"
+
+  tencent:
+    secret_id: ""
+    secret_key: ""
+    voice: "101001"  # 智瑶
+
+# 音频配置
+audio:
+  output_format: "mp3"  # 输出格式: mp3, wav, m4a, ogg
+  quality:
+    bitrate: "192k"  # 比特率
+    sample_rate: 44100  # 采样率
+
+  # 音量处理
+  normalize: true  # 是否标准化音量
+  volume_adjustment: 0  # 音量调整(dB)
+
+  # 音频合并
+  merge_chapters: false  # 是否合并章节
+  silence_between: 500  # 章节间静音(毫秒)
+
+  # 播放配置
+  player:
+    default_speed: 1.0  # 默认播放速度
+    default_volume: 0.8  # 默认音量
+
+# 文本处理配置
+text:
+  encoding: "auto"  # 文件编码: auto, utf-8, gbk, gb2312
+
+  # 文本清洗
+  remove_annotations: true  # 移除注释
+  remove_ads: true  # 移除广告
+
+  # 章节识别
+  chapter_pattern: ""  # 自定义章节正则（空则使用默认）
+
+  # 分段设置
+  max_segment_length: 500  # 最大段落长度(字符)
+  min_segment_length: 10  # 最小段落长度
+
+# 输出配置
+output:
+  base_dir: "./data/output"  # 输出目录
+  create_subdir: true  # 为每本书创建子目录
+  naming_pattern: "{chapter_index:03d}_{chapter_title}.{ext}"  # 文件命名
+
+  # 元数据
+  add_metadata: true  # 添加元数据标签
+  metadata:
+    album: "有声小说"
+    artist: "AI配音"
+    genre: "AudioBook"
+
+# 缓存配置
+cache:
+  enable: true  # 启用缓存
+  cache_dir: "./data/cache"  # 缓存目录
+  max_size_mb: 1024  # 最大缓存(MB)
+  auto_clean: true  # 自动清理
+  ttl_days: 7  # 缓存保留天数
+
+# 性能配置
+performance:
+  max_workers: 4  # 最大并发数
+  batch_size: 10  # 批处理大小
+
+# 日志配置
+logging:
+  level: "INFO"  # 日志级别: DEBUG, INFO, WARNING, ERROR
+  log_dir: "./logs"  # 日志目录
+  rotation: "10 MB"  # 日志轮转大小
+  retention: "7 days"  # 日志保留时间
+
+# AI增强配置（未来功能）
+ai:
+  enable_emotion_detection: false  # 情感检测
+  enable_role_detection: false  # 角色识别
+  enable_multi_voice: false  # 多角色配音
+  enable_background_music: false  # 背景音乐

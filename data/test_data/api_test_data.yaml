@@ -1,0 +1,63 @@
+# API测试数据示例（YAML格式）
+
+user_login:
+  valid_credentials:
+    - username: "admin"
+      password: "admin123"
+      expect_success: true
+    - username: "test_user"
+      password: "test123"
+      expect_success: true
+
+  invalid_credentials:
+    - username: "wrong_user"
+      password: "wrong_pass"
+      expect_success: false
+      expected_code: 401
+    - username: ""
+      password: "test123"
+      expect_success: false
+      expected_code: 400
+
+user_registration:
+  valid_users:
+    - username: "user001"
+      email: "user001@test.com"
+      password: "User001Pass"
+      age: 25
+    - username: "user002"
+      email: "user002@test.com"
+      password: "User002Pass"
+      age: 30
+
+  invalid_users:
+    - username: ""
+      email: "invalid@test.com"
+      password: "Pass123"
+      error_field: "username"
+    - username: "user003"
+      email: "invalid_email"
+      password: "Pass123"
+      error_field: "email"
+    - username: "user004"
+      email: "user004@test.com"
+      password: "123"
+      error_field: "password"
+
+api_endpoints:
+  user_service:
+    - path: "/api/v1/users"
+      method: "GET"
+      description: "获取用户列表"
+    - path: "/api/v1/users/{id}"
+      method: "GET"
+      description: "获取用户详情"
+    - path: "/api/v1/users"
+      method: "POST"
+      description: "创建用户"
+    - path: "/api/v1/users/{id}"
+      method: "PUT"
+      description: "更新用户"
+    - path: "/api/v1/users/{id}"
+      method: "DELETE"
+      description: "删除用户"

@@ -1,0 +1,17 @@
+# Kivy框架
+kivy==2.3.0
+kivy-garden==0.1.5
+
+# TTS引擎
+edge-tts==7.2.3
+aiohttp==3.9.1
+
+# 核心依赖
+loguru==0.7.2
+PyYAML==6.0.1
+chardet==5.2.0
+certifi>=2023.0.0
+
+# Android支持
+plyer==2.1.0
+android==1.0

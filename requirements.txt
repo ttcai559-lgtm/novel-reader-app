@@ -1,0 +1,29 @@
+# 核心依赖
+loguru==0.7.2
+PyYAML==6.0.1
+
+# TTS引擎
+edge-tts==6.1.12
+pyttsx3==2.90
+
+# 音频处理
+pydub==0.25.1
+pygame==2.5.2
+mutagen==1.47.0
+
+# 文本处理
+chardet==5.2.0
+
+# CLI工具
+click==8.1.7
+tqdm==4.66.1
+
+# 可选：云端TTS SDK
+# baidu-aip==4.16.13
+# alibabacloud-nls20180518
+# tencentcloud-sdk-python
+
+# 开发工具（可选）
+pytest==9.0.1
+black==24.3.0
+flake8==6.1.0

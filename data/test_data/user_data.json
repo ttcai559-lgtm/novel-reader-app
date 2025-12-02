@@ -1,0 +1,40 @@
+{
+  "login_success": {
+    "username": "test_user",
+    "password": "test123",
+    "expected": {
+      "status_code": 200,
+      "has_token": true
+    }
+  },
+  "login_invalid": {
+    "username": "invalid_user",
+    "password": "wrong_pass",
+    "expected": {
+      "status_code": 401
+    }
+  },
+  "create_user_valid": {
+    "username": "new_user_001",
+    "email": "newuser001@example.com",
+    "password": "NewPass123",
+    "expected": {
+      "status_code": 201
+    }
+  },
+  "create_user_duplicate": {
+    "username": "existing_user",
+    "email": "existing@example.com",
+    "password": "Pass123",
+    "expected": {
+      "status_code": 409
+    }
+  },
+  "update_user_valid": {
+    "email": "updated_email@example.com",
+    "phone": "13800138000",
+    "expected": {
+      "status_code": 200
+    }
+  }
+}
