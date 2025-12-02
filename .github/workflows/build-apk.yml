@@ -64,8 +64,15 @@ jobs:
 
     - name: Build APK
       working-directory: ./mobile_app
+      env:
+        ANDROID_HOME: ${{ env.ANDROID_HOME }}
       run: |
-        buildozer android debug
+        # Create buildozer directory structure and link our SDK
+        mkdir -p $HOME/.buildozer/android/platform
+        ln -s $ANDROID_HOME $HOME/.buildozer/android/platform/android-sdk
+
+        # Run buildozer with verbose output
+        buildozer -v android debug
       timeout-minutes: 60
 
     - name: Upload APK
