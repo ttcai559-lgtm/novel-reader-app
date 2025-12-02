@@ -13,71 +13,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
-
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential git python3-dev \
-          libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \
-          libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev \
-          zlib1g-dev unzip autoconf libtool pkg-config \
-          libffi-dev libssl-dev wget
-
-    - name: Install Python dependencies
-      run: |
-        pip install --upgrade pip
-        pip install buildozer cython
-
-    - name: Setup Android SDK
-      run: |
-        # Download Android command-line tools
-        wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O /tmp/cmdtools.zip
-        mkdir -p $HOME/android-sdk/cmdline-tools
-        unzip -q /tmp/cmdtools.zip -d $HOME/android-sdk/cmdline-tools
-        mv $HOME/android-sdk/cmdline-tools/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
-
-        # Create legacy tools/bin directory and link sdkmanager for buildozer compatibility
-        mkdir -p $HOME/android-sdk/tools/bin
-        ln -s $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager $HOME/android-sdk/tools/bin/sdkmanager
-        ln -s $HOME/android-sdk/cmdline-tools/latest/bin/avdmanager $HOME/android-sdk/tools/bin/avdmanager
-
-        # Set environment variables
-        echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
-        echo "$HOME/android-sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
-        echo "$HOME/android-sdk/platform-tools" >> $GITHUB_PATH
-        echo "$HOME/android-sdk/build-tools/30.0.3" >> $GITHUB_PATH
-
-        # Accept licenses and install required packages
-        yes | $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses || true
-        $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-31" "build-tools;30.0.3" "ndk;25.1.8937393"
-
     - name: Prepare mobile app
       run: |
         cd mobile_app
-        cp -r ../modules ../core ../config ../novel_to_audio.py .
+        # Copy dependencies if they exist
+        cp -r ../modules . 2>/dev/null || true
+        cp -r ../core . 2>/dev/null || true
+        cp -r ../config . 2>/dev/null || true
+        cp ../novel_to_audio.py . 2>/dev/null || true
         ls -la
 
-    - name: Build APK
-      working-directory: ./mobile_app
-      env:
-        ANDROID_HOME: ${{ env.ANDROID_HOME }}
+    - name: Build APK with Buildozer Docker
       run: |
-        # Create buildozer directory structure and link our SDK
-        mkdir -p $HOME/.buildozer/android/platform
-        ln -s $ANDROID_HOME $HOME/.buildozer/android/platform/android-sdk
-
-        # Run buildozer with verbose output
-        buildozer -v android debug
+        cd mobile_app
+        docker run --rm -v "$PWD":/home/user/hostcwd \
+          kivy/buildozer:latest \
+          android debug
       timeout-minutes: 60
 
     - name: Upload APK
